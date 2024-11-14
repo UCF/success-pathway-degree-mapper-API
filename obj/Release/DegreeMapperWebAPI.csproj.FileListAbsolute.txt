@@ -1,0 +1,6 @@
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\bin\Release\DegreeMapper.dll
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\bin\Release\DegreeMapper.pdb
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Release\DegreeMapperWebAPI.csprojAssemblyReference.cache
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Release\DegreeMapperWebAPI.csproj.CoreCompileInputs.cache
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Release\DegreeMapper.dll
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Release\DegreeMapper.pdb

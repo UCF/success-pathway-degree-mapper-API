@@ -1,0 +1,11 @@
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\bin\Debug\DegreeMapper.dll
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\bin\Debug\DegreeMapper.pdb
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapperWebAPI.csprojAssemblyReference.cache
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapperWebAPI.csproj.CoreCompileInputs.cache
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapper.dll
+C:\wwwroot\DegreeMapping\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapper.pdb
+C:\wwwroot\DegreeMapper\bin\Debug\DegreeMapper.dll
+C:\wwwroot\DegreeMapper\bin\Debug\DegreeMapper.pdb
+C:\wwwroot\DegreeMapper\obj\Debug\DegreeMapperWebAPI.csproj.CoreCompileInputs.cache
+C:\wwwroot\DegreeMapper\obj\Debug\DegreeMapper.dll
+C:\wwwroot\DegreeMapper\obj\Debug\DegreeMapper.pdb
