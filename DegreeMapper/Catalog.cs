@@ -16,6 +16,8 @@ namespace DegreeMapperWebAPI
         public bool Current { get; set; }
         public string UndergraduateCatalogURL { get; set; }
 
+        public bool DisplayOnWeb { get; set; }
+
         public Catalog()
         {
 
@@ -28,6 +30,7 @@ namespace DegreeMapperWebAPI
             Year = c.Year;
             Active = c.Active;
             Current = c.Current;
+            DisplayOnWeb = c.DisplayOnWeb;
             UndergraduateCatalogURL = c.UndergraduateCatalogURL;
         }
 
@@ -78,9 +81,9 @@ namespace DegreeMapperWebAPI
                 c.Year = dr["Year"].ToString();
                 c.Active = Convert.ToBoolean(dr["Active"].ToString());
                 c.Current = Convert.ToBoolean(dr["Current"].ToString());
+                c.DisplayOnWeb = Convert.ToBoolean(dr["DisplayOnWeb"].ToString());
                 c.UndergraduateCatalogURL = dr["UndergraduateCatalogURL"].ToString();
             }
         }
-
     }
 }
