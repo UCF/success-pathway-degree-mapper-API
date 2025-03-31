@@ -12,6 +12,7 @@ namespace DegreeMapperWebAPI
 {
     public class Degree
     {
+        #region Properties
         public int Id { get; set; }
         [DisplayName("Institution Id")]
         public int InstitutionId { get; set; }
@@ -43,6 +44,7 @@ namespace DegreeMapperWebAPI
         [DisplayName("Catalog URL")]
         public string CatalogUrl { get; set; }
         public int? CloneDegreeId { get; set; }
+        #endregion
 
         public Degree()
         {

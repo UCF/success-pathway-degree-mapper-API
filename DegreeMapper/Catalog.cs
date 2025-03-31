@@ -16,7 +16,7 @@ namespace DegreeMapperWebAPI
         public bool Current { get; set; }
         public string UndergraduateCatalogURL { get; set; }
 
-        public bool DisplayOnWeb { get; set; }
+        public bool DisplayOnWeb { get; set; } = false;
 
         public Catalog()
         {

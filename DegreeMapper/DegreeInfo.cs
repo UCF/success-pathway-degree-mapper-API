@@ -8,7 +8,7 @@ namespace DegreeMapperWebAPI
 {
     public class DegreeInfo
     {
-
+        #region Properties
         public int Id { get; set; }
         public string Degree { get; set; }
 
@@ -36,6 +36,7 @@ namespace DegreeMapperWebAPI
         public string ForeignLanguageRequirement { get; set; }
 
         public List<string> Notes { get; set; }
+        #endregion
 
         public DegreeInfo()
         {
