@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace DegreeMapper.PDFTemplate
         public string PDFTitle { get; set; }
         public string PDFSubject { get; set; }
         public string PDFAuthor { get; set; } = "UCF Success Pathways";
-
+        public string PDFFileName { get; set; }
 
         private const string PDFFooterImage = "https://portal.connect.ucf.edu/";
 
@@ -41,8 +42,9 @@ namespace DegreeMapper.PDFTemplate
             body.Append(GetFooterImage());
             GetHTMLPage(body.ToString());
 
-            PDFTitle = $"{DI.CatalogYear} {DI.Degree}";
-            PDFSubject = $"";
+            PDFTitle = $"{DI.CatalogYear} {DI.Degree} {DI.Institution}";
+            PDFSubject = $"UCF Success Pathways Catalog";
+            PDFFileName = $"{DI.CatalogYear}_{DI.Degree}_{DI.Institution}.pdf";
         }
 
         private void GetHTMLPage(string body)
