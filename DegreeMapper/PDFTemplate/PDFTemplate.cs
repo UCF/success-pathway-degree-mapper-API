@@ -33,6 +33,7 @@ namespace DegreeMapper.PDFTemplate
         public PDFTemplate(int degreeId) 
         {
             DegreeId = degreeId;
+            DI = DegreeInfo.Get(DegreeId);
             StringBuilder body = new StringBuilder();
             body.Append(GetPDFHeader());
             body.Append(GetRequirementsTable());
@@ -106,7 +107,7 @@ namespace DegreeMapper.PDFTemplate
 
         }
 
-        #region Get Course Mapper Table Section        
+        #region Get Course Mapper Table Section
         private string GetCourseMapperTable() {
             CourseMapper cm = new CourseMapper(DegreeId);
 
@@ -131,7 +132,7 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<tbody>");
             #endregion
 
-            #region Primary Courses           
+            #region Primary Courses
             if (cm.UCFCourses.Count > 0 || cm.PartnerCourses.Count > 0)
             {
                 sb.Append("<tr>");
@@ -141,7 +142,7 @@ namespace DegreeMapper.PDFTemplate
             }
             #endregion
 
-            #region Alternate Courses           
+            #region Alternate Courses
             if (cm.AlternateUCFCourses.Count > 0 || cm.AlternatePartnerCourses.Count > 0)
             {
                 sb.Append("<tr>");
@@ -151,7 +152,7 @@ namespace DegreeMapper.PDFTemplate
             }
             #endregion
 
-            #region Alternate 2 Courses           
+            #region Alternate 2 Courses
             if (cm.Alternate2UCFCourses.Count > 0 || cm.Alternate2PartnerCourses.Count > 0)
             {
                 sb.Append("<tr>");
@@ -161,7 +162,7 @@ namespace DegreeMapper.PDFTemplate
             }
             #endregion
 
-            #region Alternate 3 Courses           
+            #region Alternate 3 Courses
             if (cm.Alternate3UCFCourses.Count > 0 || cm.Alternate3PartnerCourses.Count > 0)
             {
                 sb.Append("<tr>");
@@ -171,7 +172,7 @@ namespace DegreeMapper.PDFTemplate
             }
             #endregion
 
-            #region Alternate 4 Courses           
+            #region Alternate 4 Courses
             if (cm.Alternate4UCFCourses.Count > 0 || cm.Alternate4PartnerCourses.Count > 0)
             {
                 sb.Append("<tr>");
@@ -181,7 +182,7 @@ namespace DegreeMapper.PDFTemplate
             }
             #endregion
 
-            #region Alternate 5 Courses           
+            #region Alternate 5 Courses
             if (cm.Alternate5UCFCourses.Count > 0 || cm.Alternate5PartnerCourses.Count > 0)
             {
                 sb.Append("<tr>");
