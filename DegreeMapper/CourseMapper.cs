@@ -148,6 +148,14 @@ namespace DegreeMapperWebAPI
             Alternate4UCFCourses = new List<Course>();
             #endregion
 
+            #region alternate 5
+            Alternate5DisplayValue = 0;
+            Alternate5PartnerCourseIds = new List<int>();
+            Alternate5PartnerCourses = new List<Course>();
+            Alternate5UCFCourseIds = new List<int>();
+            Alternate5UCFCourses = new List<Course>();
+            #endregion
+
             DisplayValue = 0;
         }
 
