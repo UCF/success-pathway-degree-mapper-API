@@ -57,8 +57,11 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<meta charset=\"UTF-8\">");
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale= 1.0\">");
             sb.Append("<title>UCF Success Pathways</title>");
+            sb.Append("<link href=\"http://localhost:62752/Content/bootstrap.min.css\" rel=\"stylesheet\" media=\"all\" />");
+            sb.Append("<link href=\"http://localhost:62752/Content/bootstrap.css\" rel=\"stylesheet\" media=\"all\" />");
+            sb.Append("<link href=\"http://localhost:62752/Content/bootstrapv4.0.0-alpha.6.css\" rel=\"stylesheet\" media=\"all\" />");
             sb.Append("</head>");
-            sb.Append("<body>");
+            sb.Append("<body style=\"margin: 50px\">");
             sb.Append($"{body}");
             sb.Append("</body>");
             sb.Append("</html>");
@@ -78,29 +81,42 @@ namespace DegreeMapper.PDFTemplate
 
         private string GetRequirementsTable()
         {
+            //@(Model.LimitedAccess?"Yes":"No")
             StringBuilder sb = new StringBuilder();
-            sb.Append("<table class=\"table\">");
+            sb.Append("<table class=\"table pt-5\"");
+            sb.Append("<tbody>");
+
+            sb.Append("<tr style=\"padding-top:25px\">");
+            sb.Append($"<td style=\"200px\"><strong>Required GPA:</strong> {DI.GPA}</td>");
+            sb.Append($"<td><strong>Limited Access:</strong> {(DI.LimitedAccess ? "Yes" : "No")}</td>");
+            sb.Append($"<td><strong>Restricted Access:</strong> {(DI.RestrictedAccess ? "Yes" : "No")}</td>");
+            sb.Append("</tr>");
+            sb.Append("</body>");
+            sb.Append("</table>");
+
+
+            sb.Append("<table class=\"table pt-5\"");
             sb.Append("<tbody>");
             sb.Append("<tr>");
-            sb.Append("<td><strong>Required GPA:</strong></td>");
-            sb.Append($"<td>{DI.GPA}</td>");
+            sb.Append("<th><strong>Foreign Language Requirements:</strong></th>");
             sb.Append("</tr>");
             sb.Append("<tr>");
-            sb.Append("<td><strong>Limited Access:</strong></td>");
-            sb.Append($"<td>{DI.LimitedAccess.ToString()}</td>");
+            sb.Append($"<td class=\"text-left\">{DI.ForeignLanguageRequirement}</td>");
+            sb.Append("</tr>");
+            sb.Append("</body>");
+            sb.Append("</table>");
+
+            sb.Append("<table class=\"table pt-5\"");
+            sb.Append("<tbody>");
+            sb.Append("<tr>");
+            sb.Append("<th><strong>Additional Requirements :</strong></th>");
             sb.Append("</tr>");
             sb.Append("<tr>");
-            sb.Append("<td><strong>Restricted Access:</strong></td>");
-            sb.Append($"<td>{DI.RestrictedAccess.ToString()}</td>");
+            sb.Append($"<td class=\"text-left\">{DI.AdditionalRequirement}</td>");
             sb.Append("</tr>");
-            sb.Append("<tr>");
-            sb.Append("<td><strong>Foreign Language Requirements:</strong></td>");
-            sb.Append($"<td>{DI.ForeignLanguageRequirement}</td>");
-            sb.Append("</tr>");
-            sb.Append("<tr>");
-            sb.Append("<td><strong>Additional Requirements :</strong></td>");
-            sb.Append($"<td>{DI.AdditionalRequirement}</td>");
-            sb.Append("</tr>");
+            sb.Append("</body>");
+            sb.Append("</table>");
+
             sb.Append("</tbody>");
             sb.Append("</table>");
             return sb.ToString();
@@ -109,7 +125,17 @@ namespace DegreeMapper.PDFTemplate
 
         #region Get Course Mapper Table Section
         private string GetCourseMapperTable() {
-            CourseMapper cm = new CourseMapper(DegreeId);
+            //CourseMapper cm = new CourseMapper(DegreeId);
+            List<CourseMapper> list_cm = CourseMapper.List(DegreeId, null, null);
+
+            if (list_cm.Count > 0)
+            {
+                foreach (CourseMapper cm in list_cm.OrderBy(x => x.SortOrder))
+                {
+
+                }
+            }
+
 
             #region Table Start
             StringBuilder sb = new StringBuilder();
@@ -132,65 +158,67 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<tbody>");
             #endregion
 
-            #region Primary Courses
-            if (cm.UCFCourses.Count > 0 || cm.PartnerCourses.Count > 0)
-            {
-                sb.Append("<tr>");
-                sb.Append(GetUCFCourseMapperTD(cm.UCFCourses, string.Empty));
-                sb.Append(GetPartnerCourseMapperTD(cm.PartnerCourses, string.Empty));
-                sb.Append("</tr>");
-            }
-            #endregion
+            //#region Primary Courses
+            //if (cm.UCFCourses.Count > 0 || cm.PartnerCourses.Count > 0)
+            //{
+            //    sb.Append("<tr>");
+            //    sb.Append(GetUCFCourseMapperTD(cm.UCFCourses, string.Empty));
+            //    sb.Append(GetPartnerCourseMapperTD(cm.PartnerCourses, string.Empty));
+            //    sb.Append("</tr>");
+            //}
+            //#endregion
 
-            #region Alternate Courses
-            if (cm.AlternateUCFCourses.Count > 0 || cm.AlternatePartnerCourses.Count > 0)
-            {
-                sb.Append("<tr>");
-                sb.Append(GetUCFCourseMapperTD(cm.AlternateUCFCourses, cm.DisplayName));
-                sb.Append(GetPartnerCourseMapperTD(cm.AlternatePartnerCourses, cm.AlternateDisplayName));
-                sb.Append("</tr>");
-            }
-            #endregion
+            //#region Alternate Courses
+            //if (cm.AlternateUCFCourses.Count > 0 || cm.AlternatePartnerCourses.Count > 0)
+            //{
+            //    sb.Append("<tr>");
+            //    sb.Append(GetUCFCourseMapperTD(cm.AlternateUCFCourses, cm.DisplayName));
+            //    sb.Append(GetPartnerCourseMapperTD(cm.AlternatePartnerCourses, cm.AlternateDisplayName));
+            //    sb.Append("</tr>");
+            //}
+            //#endregion
 
-            #region Alternate 2 Courses
-            if (cm.Alternate2UCFCourses.Count > 0 || cm.Alternate2PartnerCourses.Count > 0)
-            {
-                sb.Append("<tr>");
-                sb.Append(GetUCFCourseMapperTD(cm.Alternate2UCFCourses, cm.Alternate2DisplayName));
-                sb.Append(GetPartnerCourseMapperTD(cm.Alternate2PartnerCourses, cm.Alternate2DisplayName));
-                sb.Append("</tr>");
-            }
-            #endregion
+            //#region Alternate 2 Courses
+            //if (cm.Alternate2UCFCourses.Count > 0 || cm.Alternate2PartnerCourses.Count > 0)
+            //{
+            //    sb.Append("<tr>");
+            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate2UCFCourses, cm.Alternate2DisplayName));
+            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate2PartnerCourses, cm.Alternate2DisplayName));
+            //    sb.Append("</tr>");
+            //}
+            //#endregion
 
-            #region Alternate 3 Courses
-            if (cm.Alternate3UCFCourses.Count > 0 || cm.Alternate3PartnerCourses.Count > 0)
-            {
-                sb.Append("<tr>");
-                sb.Append(GetUCFCourseMapperTD(cm.Alternate3UCFCourses, cm.Alternate3DisplayName));
-                sb.Append(GetPartnerCourseMapperTD(cm.Alternate3PartnerCourses, cm.Alternate3DisplayName));
-                sb.Append("</tr>");
-            }
-            #endregion
+            //#region Alternate 3 Courses
+            //if (cm.Alternate3UCFCourses.Count > 0 || cm.Alternate3PartnerCourses.Count > 0)
+            //{
+            //    sb.Append("<tr>");
+            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate3UCFCourses, cm.Alternate3DisplayName));
+            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate3PartnerCourses, cm.Alternate3DisplayName));
+            //    sb.Append("</tr>");
+            //}
+            //#endregion
 
-            #region Alternate 4 Courses
-            if (cm.Alternate4UCFCourses.Count > 0 || cm.Alternate4PartnerCourses.Count > 0)
-            {
-                sb.Append("<tr>");
-                sb.Append(GetUCFCourseMapperTD(cm.Alternate4UCFCourses, cm.Alternate4DisplayName));
-                sb.Append(GetPartnerCourseMapperTD(cm.Alternate4PartnerCourses, cm.Alternate4DisplayName));
-                sb.Append("</tr>");
-            }
-            #endregion
+            //#region Alternate 4 Courses
+            //if (cm.Alternate4UCFCourses.Count > 0 || cm.Alternate4PartnerCourses.Count > 0)
+            //{
+            //    sb.Append("<tr>");
+            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate4UCFCourses, cm.Alternate4DisplayName));
+            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate4PartnerCourses, cm.Alternate4DisplayName));
+            //    sb.Append("</tr>");
+            //}
+            //#endregion
 
-            #region Alternate 5 Courses
-            if (cm.Alternate5UCFCourses.Count > 0 || cm.Alternate5PartnerCourses.Count > 0)
-            {
-                sb.Append("<tr>");
-                sb.Append(GetUCFCourseMapperTD(cm.Alternate5UCFCourses, cm.Alternate5DisplayName));
-                sb.Append(GetPartnerCourseMapperTD(cm.Alternate5PartnerCourses, cm.Alternate5DisplayName));
-                sb.Append("</tr>");
-            }
-            #endregion
+            //#region Alternate 5 Courses
+            //if (cm.Alternate5UCFCourses.Count > 0 || cm.Alternate5PartnerCourses.Count > 0)
+            //{
+            //    sb.Append("<tr>");
+            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate5UCFCourses, cm.Alternate5DisplayName));
+            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate5PartnerCourses, cm.Alternate5DisplayName));
+            //    sb.Append("</tr>");
+            //}
+            //#endregion
+
+
 
             #region Table End
             sb.Append("</tbody>");
@@ -226,8 +254,8 @@ namespace DegreeMapper.PDFTemplate
                     sb.Append(CPPSpan);
                 }
                 sb.Append("</div>");
-                sb.Append($"<div class=\"col-md-7\">{Checkbox} {course.Name}</div>");
-                sb.Append($"<div> class=\"col-md-3\"> {course.Credits} Credits</div>");
+                sb.Append($"<div class=\"col-md-7 text-left\">{Checkbox} {course.Name}</div>");
+                sb.Append($"<div> class=\"col-md-3 text-right\"> {course.Credits} Credits</div>");
                 sb.Append("</div>");
             }
             sb.Append("</td>");
@@ -245,8 +273,8 @@ namespace DegreeMapper.PDFTemplate
             foreach (Course pcourse in courseList)
             {
                 sb.Append("<div class=\"row\">");
-                sb.Append($"<div class=\"col-md-8\"{pcourse.Name}</div>");
-                sb.Append($"<div class=\"col-md-4\"{pcourse.Credits}</div>");
+                sb.Append($"<div class=\"col-md-8\">{pcourse.Name}</div>");
+                sb.Append($"<div class=\"col-md-4\">{pcourse.Credits}</div>");
                 sb.Append("</div>");
             }
             sb.Append("</td>");
@@ -266,10 +294,19 @@ namespace DegreeMapper.PDFTemplate
                 if (string.IsNullOrEmpty(semesterTerm) || semesterTerm.ToLower() != ccm.SemesterTerm.ToLower())
                 {
                     semesterTerm = ccm.SemesterTerm;
-                    sb.Append($"<tr><th colspan=\"2\" class=\"bg-primary\"><h4>{semesterTerm}</h4></th></tr>");
-                    sb.Append($"<tr><td><strong>Course</strong></td><td class=\"text-right\"><strong>Credits</strong></td></tr>");
-                }                
-                sb.Append($"<tr><td>{Checkbox} <strong>{ccm.Course}</strong></td><td class=\"text-right\">{ccm.Credit}</td></tr>");
+                    sb.Append($"<tr>" +
+                        $"<th colspan=\"2\" class=\"bg-primary text-left\">" +
+                        $"<h4>Semester {semesterTerm}</h4>" +
+                        $"</th>" +
+                        $"</tr>");
+                    sb.Append($"<tr>" +
+                        $"<td><strong>Course</strong></td>" +
+                        $"<td class=\"text-right\"><strong>Credits</strong></td>" +
+                        $"</tr>");
+                }
+                sb.Append($"<tr>" +
+                    $"<td class=\"text-left\">{Checkbox} <strong>{ccm.Course}</strong></td>" +
+                    $"<td class=\"text-right\">{ccm.Credit}</td></tr>");
                 sb.Append("</table>");
             }
             return sb.ToString();
