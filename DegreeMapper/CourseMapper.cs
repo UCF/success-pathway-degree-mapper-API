@@ -17,6 +17,8 @@ namespace DegreeMapperWebAPI
             public static string Alternate { get { return "Alternate"; } }
             public static string SelectOne { get { return "Select One"; } }
             public static string SelectTwo { get { return "Select Two"; } }
+            public static string SelectThree { get { return "Select Three"; } }
+            public static string SelectFour { get { return "Select Four"; } }
             public static string OR { get { return "OR"; } }
             public static string AND { get { return "AND"; } }
         }
@@ -25,8 +27,10 @@ namespace DegreeMapperWebAPI
         public int DegreeId { get; set; }
         public string Degree { get; set; }
 
-        public int CatalogyId { get; set; }
+        public int CatalogId { get; set; }
         public string CatalogYear { get; set; }
+
+        public int SortOrder { get; set; }
 
         public List<int> UCFCourseIds { get; set; }
         public List<Course> UCFCourses { get; set; }
@@ -106,7 +110,7 @@ namespace DegreeMapperWebAPI
             Institution = d.Institution;
             InstitutionId = d.InstitutionId;
             CatalogYear = d.CatalogYear;
-            CatalogyId = d.CatalogId;
+            CatalogId = d.CatalogId;
 
             #region primary
             PartnerCourseIds = new List<int>();
@@ -161,6 +165,11 @@ namespace DegreeMapperWebAPI
 
         public static int Insert(CourseMapper cm)
         {
+            List<CourseMapper> existingCM = CourseMapper.List(cm.DegreeId, null, null);
+            if (existingCM != null && existingCM.Count > 0)
+            {
+                cm.SortOrder = existingCM.Max(x => x.SortOrder) + 1;
+            }
             int id = 0;
             using (SqlConnection cn = new SqlConnection(Database.DC_DegreeMapping))
             {
@@ -285,6 +294,13 @@ namespace DegreeMapperWebAPI
                 #region Primary
                 cm.DisplayValue = Convert.ToInt32(dr["DisplayValue"].ToString());
                 cm.DisplayName = SetDisplayName(cm.DisplayValue);
+
+                int sortOrder = 0;
+                Int32.TryParse(dr["OrderBy"].ToString(), out sortOrder);
+                cm.SortOrder = sortOrder;
+                //cm.SortOrder = Convert.ToInt32(dr["OrderBy"].ToString());
+
+
                 if (!string.IsNullOrEmpty(dr["PartnerCourseIds"].ToString()))
                 {
                     cm.PartnerCourseIds = dr["PartnerCourseIds"].ToString().Split(',').Select(Int32.Parse).ToList();
@@ -341,7 +357,6 @@ namespace DegreeMapperWebAPI
                     cm.Alternate3UCFCourses = SetCourse(cm.Alternate3UCFCourseIds);
                 }
                 #endregion
-
                 #region Alternate 4
                 cm.Alternate4DisplayValue = Convert.ToInt32(dr["Alternate4DisplayValue"].ToString());
                 cm.Alternate4DisplayName = SetDisplayName(cm.Alternate4DisplayValue);
@@ -357,7 +372,6 @@ namespace DegreeMapperWebAPI
                     cm.Alternate4UCFCourses = SetCourse(cm.Alternate4UCFCourseIds);
                 }
                 #endregion
-
                 #region Alternate 5
                 string alternate5DisplayValue = dr["Alternate5DisplayValue"].ToString();
                 cm.Alternate5DisplayValue = (!string.IsNullOrEmpty(alternate5DisplayValue)) ? Convert.ToInt32(dr["Alternate5DisplayValue"].ToString()) : 0;
@@ -379,7 +393,7 @@ namespace DegreeMapperWebAPI
                 cm.Institution = dr["Institution"].ToString();
                 cm.InstitutionId = Convert.ToInt32(dr["InstitutionId"].ToString());
                 cm.CatalogYear = dr["CatalogYear"].ToString();
-                cm.CatalogyId = Convert.ToInt32(dr["CatalogId"].ToString());
+                cm.CatalogId = Convert.ToInt32(dr["CatalogId"].ToString());
                 int cloneCourseMapperId;
                 Int32.TryParse(dr["CloneCourseMapperId"].ToString(), out cloneCourseMapperId);
                 cm.CloneCourseMapperId = cloneCourseMapperId;
@@ -393,6 +407,8 @@ namespace DegreeMapperWebAPI
         {
             switch (value)
             {
+                case 7: return CourseMapper.DisplayType.SelectFour;
+                case 6: return CourseMapper.DisplayType.SelectThree;
                 case 5: return CourseMapper.DisplayType.SelectTwo;
                 case 4: return CourseMapper.DisplayType.SelectOne;
                 case 3: return CourseMapper.DisplayType.OR;
@@ -411,6 +427,44 @@ namespace DegreeMapperWebAPI
                 list_c.Add(c);
             }
             return list_c;
+        }
+        public static List<int> GetCourseMapperDistinctDegreeId()
+        {
+            List<int> list_degreeIds = new List<int>();
+            using (SqlConnection cn = new SqlConnection(Database.DC_DegreeMapping))
+            {
+                cn.Open();
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandText = "GetCourseMapperDistinctDegreeId";
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        list_degreeIds.Add(int.Parse(dr["DegreeId"].ToString()));
+                    }
+                }
+                cn.Close();
+            }
+            return list_degreeIds;
+        }
+
+        public static void SwapSortOrder(int courseMapperId, int degreeId, string direction)
+        {
+            List<CourseMapper> list_cm = CourseMapper.List(degreeId, null, null);
+
+            CourseMapper cmObj1 = list_cm.Where(x => x.Id == courseMapperId).FirstOrDefault();
+            if (direction.ToLower() == "up")
+            {
+
+            }
+            else
+            {
+
+            }
+
+
         }
     }
 }
