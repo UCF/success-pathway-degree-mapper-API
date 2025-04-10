@@ -127,109 +127,90 @@ namespace DegreeMapper.PDFTemplate
         private string GetCourseMapperTable() {
             //CourseMapper cm = new CourseMapper(DegreeId);
             List<CourseMapper> list_cm = CourseMapper.List(DegreeId, null, null);
-
+            StringBuilder sb = new StringBuilder();
             if (list_cm.Count > 0)
             {
+                #region Table Start
+                sb.Append($"<h2 class=\"bg-primary\">{DI.Institution}</h2>");
+                sb.Append("<div class=\"container\">");
+                sb.Append("<table class=\"table\">");
+                sb.Append("<thead>");
+                sb.Append("<tr>");
+                sb.Append("<th>UCF Course Prefix & Course Number</th>");
+                sb.Append("<th>Daytona State College Course Prefix & Number</th>");
+                sb.Append("</tr>");
+                sb.Append("<tr>");
+                sb.Append("<th colspan=\"2\">");
+                sb.Append("<div><span class=\"badge badge-secondary p-1\">C</span> Critical Course Requirements</div>");
+                sb.Append("<div><span class=\"badge badge-danger p - 1\">R</span> Required Course</div>");
+                sb.Append("<div><span class=\"badge badge-primary p-1\">CPP</span> Common Program Prerequisite</div>");
+                sb.Append("</th>");
+                sb.Append("</tr>");
+                sb.Append("</thead>");
+                sb.Append("<tbody>");
+                #endregion
+
                 foreach (CourseMapper cm in list_cm.OrderBy(x => x.SortOrder))
                 {
+                    sb.Append("<tr>");
+                    #region UCF Courses
+                    sb.Append("<td>");
+                    SetCourseMapperDiv(cm.DisplayName, cm.UCFCourses);
+                    SetCourseMapperDiv(cm.AlternateDisplayName, cm.AlternateUCFCourses);
+                    SetCourseMapperDiv(cm.Alternate2DisplayName, cm.Alternate2UCFCourses);
+                    SetCourseMapperDiv(cm.Alternate3DisplayName, cm.Alternate3UCFCourses);
+                    SetCourseMapperDiv(cm.Alternate4DisplayName, cm.Alternate4UCFCourses);
+                    SetCourseMapperDiv(cm.Alternate5DisplayName, cm.Alternate5UCFCourses);
+                    #endregion
+                    sb.Append("</td>");
 
+                    #region Partner Courses
+                    sb.Append("<td>");
+                    SetCourseMapperDiv(cm.DisplayName, cm.PartnerCourses);
+                    SetCourseMapperDiv(cm.AlternateDisplayName, cm.AlternatePartnerCourses);
+                    SetCourseMapperDiv(cm.Alternate2DisplayName, cm.Alternate2PartnerCourses);
+                    SetCourseMapperDiv(cm.Alternate3DisplayName, cm.Alternate3PartnerCourses);
+                    SetCourseMapperDiv(cm.Alternate4DisplayName, cm.Alternate4PartnerCourses);
+                    SetCourseMapperDiv(cm.Alternate5DisplayName, cm.Alternate5PartnerCourses);
+                    #endregion
+                    sb.Append("</td>");
+                    sb.Append("</tr>");
                 }
+
+                #region Table End
+                sb.Append("</tbody>");
+                sb.Append("</table>");
+                sb.Append("</div>");
+                #endregion
             }
-
-
-            #region Table Start
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"<h2 class=\"bg-primary\">{DI.Institution}</h2>");
-            sb.Append("<div class=\"container\">");
-            sb.Append("<table class=\"table\">");
-            sb.Append("<thead>");
-            sb.Append("<tr>");
-            sb.Append("<th>UCF Course Prefix & Course Number</th>");
-            sb.Append("<th>Daytona State College Course Prefix & Number</th>");
-            sb.Append("</tr>");
-            sb.Append("<tr>");
-            sb.Append("<th colspan=\"2\">");
-            sb.Append("<div><span class=\"badge badge-secondary p-1\">C</span> Critical Course Requirements</div>");
-            sb.Append("<div><span class=\"badge badge-danger p - 1\">R</span> Required Course</div>");
-            sb.Append("<div><span class=\"badge badge-primary p-1\">CPP</span> Common Program Prerequisite</div>");
-            sb.Append("</th>");
-            sb.Append("</tr>");
-            sb.Append("</thead>");
-            sb.Append("<tbody>");
-            #endregion
-
-            //#region Primary Courses
-            //if (cm.UCFCourses.Count > 0 || cm.PartnerCourses.Count > 0)
-            //{
-            //    sb.Append("<tr>");
-            //    sb.Append(GetUCFCourseMapperTD(cm.UCFCourses, string.Empty));
-            //    sb.Append(GetPartnerCourseMapperTD(cm.PartnerCourses, string.Empty));
-            //    sb.Append("</tr>");
-            //}
-            //#endregion
-
-            //#region Alternate Courses
-            //if (cm.AlternateUCFCourses.Count > 0 || cm.AlternatePartnerCourses.Count > 0)
-            //{
-            //    sb.Append("<tr>");
-            //    sb.Append(GetUCFCourseMapperTD(cm.AlternateUCFCourses, cm.DisplayName));
-            //    sb.Append(GetPartnerCourseMapperTD(cm.AlternatePartnerCourses, cm.AlternateDisplayName));
-            //    sb.Append("</tr>");
-            //}
-            //#endregion
-
-            //#region Alternate 2 Courses
-            //if (cm.Alternate2UCFCourses.Count > 0 || cm.Alternate2PartnerCourses.Count > 0)
-            //{
-            //    sb.Append("<tr>");
-            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate2UCFCourses, cm.Alternate2DisplayName));
-            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate2PartnerCourses, cm.Alternate2DisplayName));
-            //    sb.Append("</tr>");
-            //}
-            //#endregion
-
-            //#region Alternate 3 Courses
-            //if (cm.Alternate3UCFCourses.Count > 0 || cm.Alternate3PartnerCourses.Count > 0)
-            //{
-            //    sb.Append("<tr>");
-            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate3UCFCourses, cm.Alternate3DisplayName));
-            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate3PartnerCourses, cm.Alternate3DisplayName));
-            //    sb.Append("</tr>");
-            //}
-            //#endregion
-
-            //#region Alternate 4 Courses
-            //if (cm.Alternate4UCFCourses.Count > 0 || cm.Alternate4PartnerCourses.Count > 0)
-            //{
-            //    sb.Append("<tr>");
-            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate4UCFCourses, cm.Alternate4DisplayName));
-            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate4PartnerCourses, cm.Alternate4DisplayName));
-            //    sb.Append("</tr>");
-            //}
-            //#endregion
-
-            //#region Alternate 5 Courses
-            //if (cm.Alternate5UCFCourses.Count > 0 || cm.Alternate5PartnerCourses.Count > 0)
-            //{
-            //    sb.Append("<tr>");
-            //    sb.Append(GetUCFCourseMapperTD(cm.Alternate5UCFCourses, cm.Alternate5DisplayName));
-            //    sb.Append(GetPartnerCourseMapperTD(cm.Alternate5PartnerCourses, cm.Alternate5DisplayName));
-            //    sb.Append("</tr>");
-            //}
-            //#endregion
-
-
-
-            #region Table End
-            sb.Append("</tbody>");
-            sb.Append("</table>");
-            sb.Append("</div>");
-            #endregion
-
             return sb.ToString();
         }
 
-        private string GetUCFCourseMapperTD(List<Course> courseList, string displayName)
+        private string SetCourseMapperDiv(string title, List<Course> list_courses)
+        {
+            StringBuilder sb = new StringBuilder();
+            if(list_courses != null && list_courses.Count > 0)
+            {
+                sb.Append($"{title}");
+                foreach (Course c in list_courses.OrderBy(x => x.Code))
+                {
+                    c.Code = (!string.IsNullOrEmpty(c.Description)) ? c.Code + "<br /><em>" + c.Description + "</em>" : c.Code;
+                    string credit = (!string.IsNullOrEmpty(c.CreditText)) ? c.CreditText : c.Credits.ToString();
+                    if (!string.IsNullOrEmpty(c.Code))
+                    {
+                        string required = (c.Required ? "Yes": "No");
+                        string limited = (c.)
+                        sb.Append("<div class=\"pt-2\">");
+                        sb.Append($"<div>({c.Code})({credit} credits)</div>");
+                        sb.Append("</div>");
+                    }
+                }
+            }
+            return sb.ToString();
+        }
+
+
+        private string GetUCFCourseMapperTD_OLD(List<Course> courseList, string displayName)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<td>");
