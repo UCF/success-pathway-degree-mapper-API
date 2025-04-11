@@ -57,9 +57,7 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<meta charset=\"UTF-8\">");
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale= 1.0\">");
             sb.Append("<title>UCF Success Pathways</title>");
-            sb.Append("<link href=\"http://localhost:62752/Content/bootstrap.min.css\" rel=\"stylesheet\" media=\"all\" />");
-            sb.Append("<link href=\"http://localhost:62752/Content/bootstrap.css\" rel=\"stylesheet\" media=\"all\" />");
-            sb.Append("<link href=\"http://localhost:62752/Content/bootstrapv4.0.0-alpha.6.css\" rel=\"stylesheet\" media=\"all\" />");
+            sb.Append("<link href=\"https://connect.ucf.edu/wp-content/themes/Colleges-Theme/static/css/style.min.css?ver=6.7.1\" rel=\"stylesheet\" media=\"all\" />");
             sb.Append("</head>");
             sb.Append("<body style=\"margin: 50px\">");
             sb.Append($"{body}");
@@ -83,19 +81,17 @@ namespace DegreeMapper.PDFTemplate
         {
             //@(Model.LimitedAccess?"Yes":"No")
             StringBuilder sb = new StringBuilder();
-            sb.Append("<table class=\"table pt-5\"");
+            sb.Append("<table class=\"table pt-5 h5\"");
             sb.Append("<tbody>");
-
             sb.Append("<tr style=\"padding-top:25px\">");
-            sb.Append($"<td style=\"200px\"><strong>Required GPA:</strong> {DI.GPA}</td>");
+            sb.Append($"<td><strong>Required GPA:</strong> {DI.GPA}</td>");
             sb.Append($"<td><strong>Limited Access:</strong> {(DI.LimitedAccess ? "Yes" : "No")}</td>");
             sb.Append($"<td><strong>Restricted Access:</strong> {(DI.RestrictedAccess ? "Yes" : "No")}</td>");
             sb.Append("</tr>");
             sb.Append("</body>");
             sb.Append("</table>");
 
-
-            sb.Append("<table class=\"table pt-5\"");
+            sb.Append("<table class=\"table pt-5 h5\"");
             sb.Append("<tbody>");
             sb.Append("<tr>");
             sb.Append("<th><strong>Foreign Language Requirements:</strong></th>");
@@ -106,10 +102,10 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("</body>");
             sb.Append("</table>");
 
-            sb.Append("<table class=\"table pt-5\"");
+            sb.Append("<table class=\"table pt-5 h5\"");
             sb.Append("<tbody>");
             sb.Append("<tr>");
-            sb.Append("<th><strong>Additional Requirements :</strong></th>");
+            sb.Append("<th><strong>Additional Requirements:</strong></th>");
             sb.Append("</tr>");
             sb.Append("<tr>");
             sb.Append($"<td class=\"text-left\">{DI.AdditionalRequirement}</td>");
@@ -128,12 +124,13 @@ namespace DegreeMapper.PDFTemplate
             //CourseMapper cm = new CourseMapper(DegreeId);
             List<CourseMapper> list_cm = CourseMapper.List(DegreeId, null, null);
             StringBuilder sb = new StringBuilder();
+            sb.Append(GetCourseMapperDescription());
             if (list_cm.Count > 0)
             {
                 #region Table Start
-                sb.Append($"<h2 class=\"bg-primary\">{DI.Institution}</h2>");
+                //sb.Append("<div style=\"page-break-before: always\"></div>");
                 sb.Append("<div class=\"container\">");
-                sb.Append("<table class=\"table\">");
+                sb.Append("<table class=\"table text-left h5\">");
                 sb.Append("<thead>");
                 sb.Append("<tr>");
                 sb.Append("<th>UCF Course Prefix & Course Number</th>");
@@ -155,23 +152,23 @@ namespace DegreeMapper.PDFTemplate
                     sb.Append("<tr>");
                     #region UCF Courses
                     sb.Append("<td>");
-                    SetCourseMapperDiv(cm.DisplayName, cm.UCFCourses);
-                    SetCourseMapperDiv(cm.AlternateDisplayName, cm.AlternateUCFCourses);
-                    SetCourseMapperDiv(cm.Alternate2DisplayName, cm.Alternate2UCFCourses);
-                    SetCourseMapperDiv(cm.Alternate3DisplayName, cm.Alternate3UCFCourses);
-                    SetCourseMapperDiv(cm.Alternate4DisplayName, cm.Alternate4UCFCourses);
-                    SetCourseMapperDiv(cm.Alternate5DisplayName, cm.Alternate5UCFCourses);
+                    sb.Append(SetCourseMapperDiv(cm.DisplayName, cm.UCFCourses, true));
+                    sb.Append(SetCourseMapperDiv(cm.AlternateDisplayName, cm.AlternateUCFCourses, true));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate2DisplayName, cm.Alternate2UCFCourses, true));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate3DisplayName, cm.Alternate3UCFCourses, true));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate4DisplayName, cm.Alternate4UCFCourses, true));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate5DisplayName, cm.Alternate5UCFCourses, true));
                     #endregion
                     sb.Append("</td>");
 
                     #region Partner Courses
                     sb.Append("<td>");
-                    SetCourseMapperDiv(cm.DisplayName, cm.PartnerCourses);
-                    SetCourseMapperDiv(cm.AlternateDisplayName, cm.AlternatePartnerCourses);
-                    SetCourseMapperDiv(cm.Alternate2DisplayName, cm.Alternate2PartnerCourses);
-                    SetCourseMapperDiv(cm.Alternate3DisplayName, cm.Alternate3PartnerCourses);
-                    SetCourseMapperDiv(cm.Alternate4DisplayName, cm.Alternate4PartnerCourses);
-                    SetCourseMapperDiv(cm.Alternate5DisplayName, cm.Alternate5PartnerCourses);
+                    sb.Append(SetCourseMapperDiv(cm.DisplayName, cm.PartnerCourses, false));
+                    sb.Append(SetCourseMapperDiv(cm.AlternateDisplayName, cm.AlternatePartnerCourses, false));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate2DisplayName, cm.Alternate2PartnerCourses, false));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate3DisplayName, cm.Alternate3PartnerCourses, false));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate4DisplayName, cm.Alternate4PartnerCourses, false));
+                    sb.Append(SetCourseMapperDiv(cm.Alternate5DisplayName, cm.Alternate5PartnerCourses, false));
                     #endregion
                     sb.Append("</td>");
                     sb.Append("</tr>");
@@ -186,22 +183,29 @@ namespace DegreeMapper.PDFTemplate
             return sb.ToString();
         }
 
-        private string SetCourseMapperDiv(string title, List<Course> list_courses)
+        private string SetCourseMapperDiv(string title, List<Course> list_courses, bool useCheckbox)
         {
             StringBuilder sb = new StringBuilder();
             if(list_courses != null && list_courses.Count > 0)
             {
-                sb.Append($"{title}");
+                string displayCheckbox = (useCheckbox ? Checkbox : string.Empty);
+
+                if (title.ToLower() != "default")
+                {
+                    sb.Append($"{title}");
+                }
                 foreach (Course c in list_courses.OrderBy(x => x.Code))
                 {
                     c.Code = (!string.IsNullOrEmpty(c.Description)) ? c.Code + "<br /><em>" + c.Description + "</em>" : c.Code;
                     string credit = (!string.IsNullOrEmpty(c.CreditText)) ? c.CreditText : c.Credits.ToString();
                     if (!string.IsNullOrEmpty(c.Code))
                     {
-                        string required = (c.Required ? "Yes": "No");
-                        string limited = (c.)
+                        string critical = (c.Critical ? "<span class=\"badge badge-secondary p-1\">C</span>" : string.Empty);
+                        string required = (c.Required ? "<span class=\"badge badge-danger p-1\">R</span>" : string.Empty);
+                        string cpp = (c.CommonProgramPrerequiste ? "<span class=\"badge badge-primary p-1\">CPP</span>" : string.Empty);
+
                         sb.Append("<div class=\"pt-2\">");
-                        sb.Append($"<div>({c.Code})({credit} credits)</div>");
+                        sb.Append($"<div>{displayCheckbox}{critical}{required}{cpp} {c.Code} {credit} credits</div>");
                         sb.Append("</div>");
                     }
                 }
@@ -235,7 +239,7 @@ namespace DegreeMapper.PDFTemplate
                     sb.Append(CPPSpan);
                 }
                 sb.Append("</div>");
-                sb.Append($"<div class=\"col-md-7 text-left\">{Checkbox} {course.Name}</div>");
+                sb.Append($"<div class=\"col-md-7 text-left\">{course.Name}</div>");
                 sb.Append($"<div> class=\"col-md-3 text-right\"> {course.Credits} Credits</div>");
                 sb.Append("</div>");
             }
@@ -269,27 +273,33 @@ namespace DegreeMapper.PDFTemplate
             List<CustomCourseMapper> list = CustomCourseMapper.List(DegreeId);
 
             string semesterTerm = string.Empty;
-            foreach (CustomCourseMapper ccm in list.OrderBy(x=>x.Semester).ThenBy(x=>x.TermOrder))
+            if (list.Count > 0)
             {
-                sb.Append("<table class=\"table\">");
-                if (string.IsNullOrEmpty(semesterTerm) || semesterTerm.ToLower() != ccm.SemesterTerm.ToLower())
+                sb.Append("<div style=\"page-break-before: always\"></div>");
+                sb.Append(GetCustomCourseMapperDescription());
+                foreach (CustomCourseMapper ccm in list.OrderBy(x => x.Semester).ThenBy(x => x.TermOrder))
                 {
-                    semesterTerm = ccm.SemesterTerm;
+                    sb.Append("<table class=\"table h5\">");
+                    if (string.IsNullOrEmpty(semesterTerm) || semesterTerm.ToLower() != ccm.SemesterTerm.ToLower())
+                    {
+                        semesterTerm = ccm.SemesterTerm;
+                        sb.Append($"<tr>" +
+                            $"<th colspan=\"2\" class=\"bg-primary text-left\">" +
+                            $"<h4>Semester {semesterTerm}</h4>" +
+                            $"</th>" +
+                            $"</tr>");
+                        sb.Append($"<tr>" +
+                            $"<td><strong>Course</strong></td>" +
+                            $"<td class=\"text-right\"><strong>Credits</strong></td>" +
+                            $"</tr>");
+                    }
                     sb.Append($"<tr>" +
-                        $"<th colspan=\"2\" class=\"bg-primary text-left\">" +
-                        $"<h4>Semester {semesterTerm}</h4>" +
-                        $"</th>" +
-                        $"</tr>");
-                    sb.Append($"<tr>" +
-                        $"<td><strong>Course</strong></td>" +
-                        $"<td class=\"text-right\"><strong>Credits</strong></td>" +
-                        $"</tr>");
+                        $"<td class=\"text-left\"><strong>{ccm.Course}</strong></td>" +
+                        $"<td class=\"text-right\">{ccm.Credit}</td></tr>");
+                    sb.Append("</table>");
                 }
-                sb.Append($"<tr>" +
-                    $"<td class=\"text-left\">{Checkbox} <strong>{ccm.Course}</strong></td>" +
-                    $"<td class=\"text-right\">{ccm.Credit}</td></tr>");
-                sb.Append("</table>");
             }
+            sb.Append("<div style=\"page-break-before: always\"></div>");
             return sb.ToString();
         }
 
@@ -299,6 +309,20 @@ namespace DegreeMapper.PDFTemplate
             return $"<div><strong>Disclaimer</strong></div><div>{disclaimer}</div>";
         }
 
+        private string GetCourseMapperDescription()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<div class=\"text-left h5\">Listed courses are to account for degree requirements, pre-requisites and critical courses to prepare students for admission to intended major at UCF.Courses should be completed before transferring to UCF.</div>");
+            sb.Append("<div class=\"text-left h5 pb-2\">This program may have different tracks.Please refer to the UCF Catalog for additional coursework you can complete while earning your AA.</div>");
+            return sb.ToString();
+        }
+
+        private string GetCustomCourseMapperDescription()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<div class=\"text-left pt-3 h5\">The semester curriculum suggested below assumes that the student: a) has earned an A.A., b) has completed required lower-level courses and academic milestones, c) will be enrolled full-time at UCF. Upon matriculation to UCF, the student is strongly encouraged to consult their major advisor at UCF and utilize the academic planning tools such as Pegasus Path, myKnight Audit, and mySchedule Builder for any of their academic planning needs.</div>");
+            return sb.ToString();
+        }
         private string GetFooterImage()
         { 
             StringBuilder sb = new StringBuilder();
