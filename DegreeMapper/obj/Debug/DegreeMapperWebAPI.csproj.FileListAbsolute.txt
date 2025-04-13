@@ -16,3 +16,9 @@ C:\websites\SuccessPathwayPortal\DegreeMapper\DegreeMapper\obj\Debug\DegreeMappe
 C:\websites\SuccessPathwayPortal\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapper.dll
 C:\websites\SuccessPathwayPortal\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapper.pdb
 C:\websites\SuccessPathwayPortal\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapperWebAPI.csproj.AssemblyReference.cache
+C:\Github\DegreeMapper\DegreeMapper\bin\Debug\DegreeMapper.dll
+C:\Github\DegreeMapper\DegreeMapper\bin\Debug\DegreeMapper.pdb
+C:\Github\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapperWebAPI.csproj.CoreCompileInputs.cache
+C:\Github\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapper.dll
+C:\Github\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapper.pdb
+C:\Github\DegreeMapper\DegreeMapper\obj\Debug\DegreeMapperWebAPI.csproj.AssemblyReference.cache

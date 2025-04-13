@@ -57,13 +57,24 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<meta charset=\"UTF-8\">");
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale= 1.0\">");
             sb.Append("<title>UCF Success Pathways</title>");
-            sb.Append("<link href=\"https://connect.ucf.edu/wp-content/themes/Colleges-Theme/static/css/style.min.css?ver=6.7.1\" rel=\"stylesheet\" media=\"all\" />");
+            sb.Append("<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css\" integrity=\"sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N\" crossorigin=\"anonymous\">");
+            //sb.Append("<link href=\"https://connect.ucf.edu/wp-content/themes/Colleges-Theme/static/css/style.min.css?ver=6.7.1\" rel=\"stylesheet\" media=\"all\" />");
+            sb.Append(GetCustomCss());
             sb.Append("</head>");
             sb.Append("<body style=\"margin: 50px\">");
             sb.Append($"{body}");
             sb.Append("</body>");
             sb.Append("</html>");
             HTMLPage =  sb.ToString();
+        }
+
+        private string GetCustomCss()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<style>");
+            sb.Append(".bg-primary .badge-primary { background-color: #fc0 !important; }");
+            sb.Append("</style>");
+            return sb.ToString();
         }
 
         private string GetPDFHeader()
@@ -133,13 +144,13 @@ namespace DegreeMapper.PDFTemplate
                 sb.Append("<table class=\"table text-left h5\">");
                 sb.Append("<thead>");
                 sb.Append("<tr>");
-                sb.Append("<th>UCF Course Prefix & Course Number</th>");
-                sb.Append("<th>Daytona State College Course Prefix & Number</th>");
+                sb.Append("<th colspan=\"2\">UCF Course Prefix & Course Number</th>");
+                sb.Append($"<th>{DI.Institution} Course Prefix & Number</th>");
                 sb.Append("</tr>");
                 sb.Append("<tr>");
-                sb.Append("<th colspan=\"2\">");
+                sb.Append("<th colspan=\"3\">");
                 sb.Append("<div><span class=\"badge badge-secondary p-1\">C</span> Critical Course Requirements</div>");
-                sb.Append("<div><span class=\"badge badge-danger p - 1\">R</span> Required Course</div>");
+                sb.Append("<div><span class=\"badge badge-danger p-1\">R</span> Required Course</div>");
                 sb.Append("<div><span class=\"badge badge-primary p-1\">CPP</span> Common Program Prerequisite</div>");
                 sb.Append("</th>");
                 sb.Append("</tr>");
@@ -151,6 +162,7 @@ namespace DegreeMapper.PDFTemplate
                 {
                     sb.Append("<tr>");
                     #region UCF Courses
+                    sb.Append($"<td>{Checkbox}</td>");
                     sb.Append("<td>");
                     sb.Append(SetCourseMapperDiv(cm.DisplayName, cm.UCFCourses, true));
                     sb.Append(SetCourseMapperDiv(cm.AlternateDisplayName, cm.AlternateUCFCourses, true));
@@ -205,45 +217,12 @@ namespace DegreeMapper.PDFTemplate
                         string cpp = (c.CommonProgramPrerequiste ? "<span class=\"badge badge-primary p-1\">CPP</span>" : string.Empty);
 
                         sb.Append("<div class=\"pt-2\">");
-                        sb.Append($"<div>{displayCheckbox}{critical}{required}{cpp} {c.Code} {credit} credits</div>");
+                        sb.Append($"<div>{critical}{required}{cpp} {c.Code} {credit} credits</div>");
                         sb.Append("</div>");
+                        //{displayCheckbox}
                     }
                 }
             }
-            return sb.ToString();
-        }
-
-
-        private string GetUCFCourseMapperTD_OLD(List<Course> courseList, string displayName)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<td>");
-            if (!string.IsNullOrEmpty(displayName))
-            {
-                sb.Append($"<div class=\"row\"><div class=\"col-md-12\">{displayName}</div></div>");
-            }
-            foreach (Course course in courseList)
-            {
-                sb.Append("<div class=\"row\">");
-                sb.Append("div class\"col-md-2\"");
-                if (course.Critical)
-                {
-                    sb.Append(CriticalSpan);
-                }
-                if (course.Required)
-                {
-                    sb.Append(RequiredSpan);
-                }
-                if (course.CommonProgramPrerequiste)
-                {
-                    sb.Append(CPPSpan);
-                }
-                sb.Append("</div>");
-                sb.Append($"<div class=\"col-md-7 text-left\">{course.Name}</div>");
-                sb.Append($"<div> class=\"col-md-3 text-right\"> {course.Credits} Credits</div>");
-                sb.Append("</div>");
-            }
-            sb.Append("</td>");
             return sb.ToString();
         }
 
@@ -271,6 +250,21 @@ namespace DegreeMapper.PDFTemplate
         {
             StringBuilder sb = new StringBuilder();
             List<CustomCourseMapper> list = CustomCourseMapper.List(DegreeId);
+            List<CustomCourseSemester> list2 = CustomCourseSemester.List(DegreeId, null);
+
+            if (list2.Count > 0)
+            {
+                foreach (CustomCourseSemester ccs in list2)
+                {
+                    CustomCourseMapper cm = new CustomCourseMapper();
+                    cm.Course = ccs.Note;
+                    cm.Semester = ccs.Semester;
+                    cm.Credit = string.Empty;
+                    cm.SemesterTerm = (!string.IsNullOrEmpty(ccs.Term)) ? ccs.Semester.ToString() + " " + ccs.Term : ccs.Semester.ToString();
+                    cm.TermOrder = "99";
+                    list.Add(cm);
+                }
+            }
 
             string semesterTerm = string.Empty;
             if (list.Count > 0)
@@ -289,12 +283,12 @@ namespace DegreeMapper.PDFTemplate
                             $"</th>" +
                             $"</tr>");
                         sb.Append($"<tr>" +
-                            $"<td><strong>Course</strong></td>" +
+                            $"<td class=\"text-left\"><strong>Course</strong></td>" +
                             $"<td class=\"text-right\"><strong>Credits</strong></td>" +
                             $"</tr>");
                     }
                     sb.Append($"<tr>" +
-                        $"<td class=\"text-left\"><strong>{ccm.Course}</strong></td>" +
+                        $"<td class=\"text-left\">{ccm.Course}</td>" +
                         $"<td class=\"text-right\">{ccm.Credit}</td></tr>");
                     sb.Append("</table>");
                 }
@@ -303,12 +297,20 @@ namespace DegreeMapper.PDFTemplate
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Returns plain text
+        /// </summary>
+        /// <returns></returns>
         private string GetDisclaimerTable()
         {
-            string disclaimer = @"Success Pathways do not substitute for your advisor, degree planning tools, and degree audits. Once you enroll at UCF, Pegasus Path (degree planning) and myKnight Audit (degree audit) are the official tools at UCF. Please choose your major of choice early and follow Success Pathways in consultation with your advisor. Actual degree requirements at each institution are based on the undergraduate catalog year in which you first enrolled in the institution.";
-            return $"<div><strong>Disclaimer</strong></div><div>{disclaimer}</div>";
+            string disclaimer = "Success Pathways do not substitute for your advisor, degree planning tools, and degree audits. Once you enroll at UCF, Pegasus Path (degree planning) and myKnight Audit (degree audit) are the official tools at UCF. Please choose your major of choice early and follow Success Pathways in consultation with your advisor. Actual degree requirements at each institution are based on the undergraduate catalog year in which you first enrolled in the institution.";
+            return $"<div class\"text-left\"><strong>Disclaimer</strong></div><div class\"text-left\">{disclaimer}</div>";
         }
 
+        /// <summary>
+        /// Returns plain text
+        /// </summary>
+        /// <returns></returns>
         private string GetCourseMapperDescription()
         {
             StringBuilder sb = new StringBuilder();
@@ -317,10 +319,21 @@ namespace DegreeMapper.PDFTemplate
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Returns plain Text
+        /// </summary>
+        /// <returns></returns>
         private string GetCustomCourseMapperDescription()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<div class=\"text-left pt-3 h5\">The semester curriculum suggested below assumes that the student: a) has earned an A.A., b) has completed required lower-level courses and academic milestones, c) will be enrolled full-time at UCF. Upon matriculation to UCF, the student is strongly encouraged to consult their major advisor at UCF and utilize the academic planning tools such as Pegasus Path, myKnight Audit, and mySchedule Builder for any of their academic planning needs.</div>");
+            return sb.ToString();
+        }
+
+        public string GetCustomCourseSemester(int degreeId)
+        {
+            StringBuilder sb = new StringBuilder();
+            List<CustomCourseSemester> list = CustomCourseSemester.List(degreeId, null);
             return sb.ToString();
         }
         private string GetFooterImage()

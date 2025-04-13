@@ -48,12 +48,14 @@
     <Compile Include="CourseMapper.cs" />
     <Compile Include="CourseMapperJSON.cs" />
     <Compile Include="CustomCourseMapper.cs" />
+    <Compile Include="CustomCourseSemester.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Degree.cs" />
     <Compile Include="DegreeInfo.cs" />
     <Compile Include="DegreeList.cs" />
     <Compile Include="Institution.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="PDFTemplate\PDFTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
