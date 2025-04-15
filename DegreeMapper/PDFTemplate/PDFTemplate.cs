@@ -21,7 +21,7 @@ namespace DegreeMapper.PDFTemplate
         public string PDFAuthor { get; set; } = "UCF Success Pathways";
         public string PDFFileName { get; set; }
 
-        private const string PDFHeaderImage = "http://localhost:62752/Images/PDFHeaderImage.png";
+        private const string PDFHeaderImage = "https://dev.portal.connect.ucf.edu/pathway/images/PDFHeaderImage.png";
 
         private DegreeInfo DI { get; set; }
 
@@ -58,7 +58,7 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<meta charset=\"UTF-8\">");
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale= 1.0\">");
             sb.Append("<title>UCF Success Pathways</title>");
-            sb.Append("<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css\" integrity=\"sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N\" crossorigin=\"anonymous\">");
+            sb.Append("<link rel=\"stylesheet\" href=\"https://dev.portal.connect.ucf.edu/pathway/content/bootstrap-theme.min.css\" />");
             //sb.Append("<link href=\"https://connect.ucf.edu/wp-content/themes/Colleges-Theme/static/css/style.min.css?ver=6.7.1\" rel=\"stylesheet\" media=\"all\" />");
             sb.Append(GetCustomCss());
             sb.Append("</head>");
