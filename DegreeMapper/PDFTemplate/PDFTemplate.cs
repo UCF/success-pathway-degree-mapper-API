@@ -21,7 +21,7 @@ namespace DegreeMapper.PDFTemplate
         public string PDFAuthor { get; set; } = "UCF Success Pathways";
         public string PDFFileName { get; set; }
 
-        private const string PDFFooterImage = "https://portal.connect.ucf.edu/";
+        private const string PDFHeaderImage = "http://localhost:62752/Images/PDFHeaderImage.png";
 
         private DegreeInfo DI { get; set; }
 
@@ -35,17 +35,18 @@ namespace DegreeMapper.PDFTemplate
             DegreeId = degreeId;
             DI = DegreeInfo.Get(DegreeId);
             StringBuilder body = new StringBuilder();
+            body.Append(GetHeaderImage());
             body.Append(GetPDFHeader());
             body.Append(GetRequirementsTable());
             body.Append(GetCourseMapperTable());
             body.Append(GetSemesterPathwaysTable());
             body.Append(GetDisclaimerTable());
-            body.Append(GetFooterImage());
             GetHTMLPage(body.ToString());
 
             PDFTitle = $"{DI.CatalogYear} {DI.Degree} {DI.Institution}";
             PDFSubject = $"UCF Success Pathways Catalog";
-            PDFFileName = $"{DI.CatalogYear}_{DI.Degree}_{DI.Institution}.pdf";
+            //PDFFileName = $"{DI.CatalogYear}_{DI.Degree}_{DI.Institution}.pdf";
+            PDFFileName = "SuccessPathwayDegree.pdf";
         }
 
         private void GetHTMLPage(string body)
@@ -72,7 +73,8 @@ namespace DegreeMapper.PDFTemplate
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<style>");
-            sb.Append(".bg-primary .badge-primary { background-color: #fc0 !important; }");
+            sb.Append(".bg-primary, .badge-primary { background-color: #fc0 !important; color:black }");
+            sb.Append(".badge-secondary { background-color: black; color:white }");
             sb.Append("</style>");
             return sb.ToString();
         }
@@ -80,11 +82,12 @@ namespace DegreeMapper.PDFTemplate
         private string GetPDFHeader()
         { 
             StringBuilder sb = new StringBuilder();
-            sb.Append("<div class='text-center'>");
+            sb.Append("<div class=\"text-center pb-4\">");
             sb.Append("<h1>UCF Success Pathways</h1>");
             sb.Append($"<h2>{DI.CatalogYear} {DI.Degree}</h2>");
-            sb.Append($"<h3>{DI.Institution}</h3");
+            sb.Append($"<h3>State College Plan: {DI.Institution} Plan</h3");
             sb.Append("</div>");
+            sb.Append("<p>&nbsp;</p>");
             return sb.ToString();
         }
 
@@ -269,7 +272,7 @@ namespace DegreeMapper.PDFTemplate
             string semesterTerm = string.Empty;
             if (list.Count > 0)
             {
-                sb.Append("<div style=\"page-break-before: always\"></div>");
+                //sb.Append("<div style=\"page-break-before: always\"></div>");
                 sb.Append(GetCustomCourseMapperDescription());
                 foreach (CustomCourseMapper ccm in list.OrderBy(x => x.Semester).ThenBy(x => x.TermOrder))
                 {
@@ -293,7 +296,7 @@ namespace DegreeMapper.PDFTemplate
                     sb.Append("</table>");
                 }
             }
-            sb.Append("<div style=\"page-break-before: always\"></div>");
+            //sb.Append("<div style=\"page-break-before: always\"></div>");
             return sb.ToString();
         }
 
@@ -336,10 +339,11 @@ namespace DegreeMapper.PDFTemplate
             List<CustomCourseSemester> list = CustomCourseSemester.List(degreeId, null);
             return sb.ToString();
         }
-        private string GetFooterImage()
+        private string GetHeaderImage()
         { 
             StringBuilder sb = new StringBuilder();
-            sb.Append($"<div><img src=\"{ PDFFooterImage}\"/></div>");
+            string img = $"<img src=\"{PDFHeaderImage}\" style=\"width:400px\"/>";
+            sb.Append($"<div class=\"container text-center pb-4\">{img}</div>");
             return sb.ToString();
         }
     }
