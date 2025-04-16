@@ -59,10 +59,9 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale= 1.0\">");
             sb.Append("<title>UCF Success Pathways</title>");
             sb.Append("<link rel=\"stylesheet\" href=\"https://dev.portal.connect.ucf.edu/pathway/content/bootstrap-theme.min.css\" />");
-            //sb.Append("<link href=\"https://connect.ucf.edu/wp-content/themes/Colleges-Theme/static/css/style.min.css?ver=6.7.1\" rel=\"stylesheet\" media=\"all\" />");
             sb.Append(GetCustomCss());
             sb.Append("</head>");
-            sb.Append("<body style=\"margin: 50px\">");
+            sb.Append("<body style=\"margin: 25px\">");
             sb.Append($"{body}");
             sb.Append("</body>");
             sb.Append("</html>");
