@@ -58,10 +58,10 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<meta charset=\"UTF-8\">");
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale= 1.0\">");
             sb.Append("<title>UCF Success Pathways</title>");
-            sb.Append("<link rel=\"stylesheet\" href=\"https://dev.portal.connect.ucf.edu/pathway/content/bootstrap-theme.min.css\" />");
+            sb.Append("<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css\" integrity=\"sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N\" crossorigin=\"anonymous\">");
             sb.Append(GetCustomCss());
             sb.Append("</head>");
-            sb.Append("<body style=\"margin: 25px\">");
+            sb.Append("<body style=\"margin: 25px;\">");
             sb.Append($"{body}");
             sb.Append("</body>");
             sb.Append("</html>");
@@ -84,7 +84,7 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<div class=\"text-center pb-4\">");
             sb.Append("<h1>UCF Success Pathways</h1>");
             sb.Append($"<h2>{DI.CatalogYear} {DI.Degree}</h2>");
-            sb.Append($"<h3>State College Plan: {DI.Institution} Plan</h3");
+            sb.Append($"<h3>State College Plan: {DI.Institution} Plan</h3>");
             sb.Append("</div>");
             sb.Append("<p>&nbsp;</p>");
             return sb.ToString();
@@ -94,17 +94,17 @@ namespace DegreeMapper.PDFTemplate
         {
             //@(Model.LimitedAccess?"Yes":"No")
             StringBuilder sb = new StringBuilder();
-            sb.Append("<table class=\"table pt-5 h5\"");
+            sb.Append("<table class=\"table pt-5 h5\">");
             sb.Append("<tbody>");
             sb.Append("<tr style=\"padding-top:25px\">");
             sb.Append($"<td><strong>Required GPA:</strong> {DI.GPA}</td>");
             sb.Append($"<td><strong>Limited Access:</strong> {(DI.LimitedAccess ? "Yes" : "No")}</td>");
             sb.Append($"<td><strong>Restricted Access:</strong> {(DI.RestrictedAccess ? "Yes" : "No")}</td>");
             sb.Append("</tr>");
-            sb.Append("</body>");
+            sb.Append("</tbody>");
             sb.Append("</table>");
 
-            sb.Append("<table class=\"table pt-5 h5\"");
+            sb.Append("<table class=\"table pt-5 h5\">");
             sb.Append("<tbody>");
             sb.Append("<tr>");
             sb.Append("<th><strong>Foreign Language Requirements:</strong></th>");
@@ -112,10 +112,10 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<tr>");
             sb.Append($"<td class=\"text-left\">{DI.ForeignLanguageRequirement}</td>");
             sb.Append("</tr>");
-            sb.Append("</body>");
+            sb.Append("</tbody>");
             sb.Append("</table>");
 
-            sb.Append("<table class=\"table pt-5 h5\"");
+            sb.Append("<table class=\"table pt-5 h5\">");
             sb.Append("<tbody>");
             sb.Append("<tr>");
             sb.Append("<th><strong>Additional Requirements:</strong></th>");
@@ -123,7 +123,7 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<tr>");
             sb.Append($"<td class=\"text-left\">{DI.AdditionalRequirement}</td>");
             sb.Append("</tr>");
-            sb.Append("</body>");
+            sb.Append("</tbody>");
             sb.Append("</table>");
 
             sb.Append("</tbody>");
@@ -306,7 +306,7 @@ namespace DegreeMapper.PDFTemplate
         private string GetDisclaimerTable()
         {
             string disclaimer = "Success Pathways do not substitute for your advisor, degree planning tools, and degree audits. Once you enroll at UCF, Pegasus Path (degree planning) and myKnight Audit (degree audit) are the official tools at UCF. Please choose your major of choice early and follow Success Pathways in consultation with your advisor. Actual degree requirements at each institution are based on the undergraduate catalog year in which you first enrolled in the institution.";
-            return $"<div class\"text-left\"><strong>Disclaimer</strong></div><div class\"text-left\">{disclaimer}</div>";
+            return $"<div class=\"text-left\"><strong>Disclaimer</strong></div><div class=\"text-left\">{disclaimer}</div>";
         }
 
         /// <summary>
