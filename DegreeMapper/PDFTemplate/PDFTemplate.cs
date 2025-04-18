@@ -61,7 +61,7 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<link rel=\"stylesheet\" href=\"https://dev.portal.connect.ucf.edu/pathway/Content/PDFCss/bootstrap4.6.2.min.css\">");
             sb.Append(GetCustomCss());
             sb.Append("</head>");
-            sb.Append("<body style=\"margin: 0px;\">");
+            sb.Append("<body style=\"margin: 25px;\">");
             sb.Append($"{body}");
             sb.Append("</body>");
             sb.Append("</html>");
@@ -355,7 +355,7 @@ namespace DegreeMapper.PDFTemplate
         private string GetHeaderImage()
         { 
             StringBuilder sb = new StringBuilder();
-            string img = $"<img src=\"{PDFHeaderImage}\" style=\"width:400px\"/>";
+            string img = $"<img src=\"{PDFHeaderImage}\" alt=\"Transfer Connect logo\" style=\"width:400px\"/>";
             sb.Append($"<div class=\"container text-center pb-4\">{img}</div>");
             return sb.ToString();
         }
