@@ -61,7 +61,7 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<link rel=\"stylesheet\" href=\"https://dev.portal.connect.ucf.edu/pathway/Content/PDFCss/bootstrap4.6.2.min.css\">");
             sb.Append(GetCustomCss());
             sb.Append("</head>");
-            sb.Append("<body style=\"margin: 25px;\">");
+            sb.Append("<body style=\"margin: 0px;\">");
             sb.Append($"{body}");
             sb.Append("</body>");
             sb.Append("</html>");
