@@ -45,8 +45,7 @@ namespace DegreeMapper.PDFTemplate
 
             PDFTitle = $"{DI.CatalogYear} {DI.Degree} {DI.Institution}";
             PDFSubject = $"UCF Success Pathways Catalog";
-            //PDFFileName = $"{DI.CatalogYear}_{DI.Degree}_{DI.Institution}.pdf";
-            PDFFileName = "SuccessPathwayDegree.pdf";
+            GetPDFFileName();
         }
 
         private void GetHTMLPage(string body)
@@ -58,7 +57,8 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("<meta charset=\"UTF-8\">");
             sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale= 1.0\">");
             sb.Append("<title>UCF Success Pathways</title>");
-            sb.Append("<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css\" integrity=\"sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N\" crossorigin=\"anonymous\">");
+            //sb.Append("<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css\" integrity=\"sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N\" crossorigin=\"anonymous\">");
+            sb.Append("<link rel=\"stylesheet\" href=\"https://dev.portal.connect.ucf.edu/pathway/Content/PDFCss/bootstrap4.6.2.min.css\">");
             sb.Append(GetCustomCss());
             sb.Append("</head>");
             sb.Append("<body style=\"margin: 25px;\">");
@@ -66,6 +66,12 @@ namespace DegreeMapper.PDFTemplate
             sb.Append("</body>");
             sb.Append("</html>");
             HTMLPage =  sb.ToString();
+        }
+
+        private void GetPDFFileName()
+        {
+            string pdfFileName = $"{DI.CatalogYear}-{DI.Institution}-{DI.Degree}";
+            PDFFileName = pdfFileName.Replace(",", "_").Replace(".", "")+".pdf";
         }
 
         private string GetCustomCss()
@@ -214,13 +220,21 @@ namespace DegreeMapper.PDFTemplate
                     string credit = (!string.IsNullOrEmpty(c.CreditText)) ? c.CreditText : c.Credits.ToString();
                     if (!string.IsNullOrEmpty(c.Code))
                     {
-                        string critical = (c.Critical ? "<span class=\"badge badge-secondary p-1\">C</span>" : string.Empty);
-                        string required = (c.Required ? "<span class=\"badge badge-danger p-1\">R</span>" : string.Empty);
-                        string cpp = (c.CommonProgramPrerequiste ? "<span class=\"badge badge-primary p-1\">CPP</span>" : string.Empty);
-
-                        sb.Append("<div class=\"pt-2\">");
-                        sb.Append($"<div>{critical}{required}{cpp} {c.Code} {credit} credits</div>");
-                        sb.Append("</div>");
+                        if (useCheckbox)
+                        {
+                            string critical = (c.Critical ? "<span class=\"badge badge-secondary p-1\">C</span>" : string.Empty);
+                            string required = (c.Required ? "<span class=\"badge badge-danger p-1\">R</span>" : string.Empty);
+                            string cpp = (c.CommonProgramPrerequiste ? "<span class=\"badge badge-primary p-1\">CPP</span>" : string.Empty);
+                            sb.Append("<div class=\"pt-2\">");
+                            sb.Append($"<div>{critical}{required}{cpp} {c.Code} {credit} credits</div>");
+                            sb.Append("</div>");
+                        }
+                        else
+                        {
+                            sb.Append("<div class=\"pt-2\">");
+                            sb.Append($"<div>{c.Code} {credit} credits</div>");
+                            sb.Append("</div>");
+                        }
                         //{displayCheckbox}
                     }
                 }
