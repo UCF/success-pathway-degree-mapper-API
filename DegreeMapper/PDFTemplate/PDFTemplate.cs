@@ -43,7 +43,7 @@ namespace DegreeMapper.PDFTemplate
             body.Append(GetDisclaimerTable());
             GetHTMLPage(body.ToString());
 
-            PDFTitle = $"{DI.CatalogYear} {DI.Degree} {DI.Institution}";
+            PDFTitle = $"{DI.CatalogYear} {DI.Institution} {DI.Degree}";
             PDFSubject = $"UCF Success Pathways Catalog";
             GetPDFFileName();
         }
