@@ -319,7 +319,7 @@ namespace DegreeMapper.PDFTemplate
         /// <returns></returns>
         private string GetDisclaimerTable()
         {
-            string disclaimer = "Success Pathways do not substitute for your advisor, degree planning tools, and degree audits. Once you enroll at UCF, Pegasus Path (degree planning) and myKnight Audit (degree audit) are the official tools at UCF. Please choose your major of choice early and follow Success Pathways in consultation with your advisor. Actual degree requirements at each institution are based on the undergraduate catalog year in which you first enrolled in the institution.";
+            string disclaimer = "Success Pathways do not substitute for your advisor, degree planning tools, and degree audits. Once you enroll at UCF, Pegasus Path (degree planning) and myKnight Audit (degree audit) are the official tools at UCF. Please choose your major of choice early and follow Success Pathways in consultation with your advisor or academic success coach. Actual degree requirements at each institution are based on the undergraduate catalog year in which you first enrolled in the institution.";
             return $"<div class=\"text-left\"><strong>Disclaimer</strong></div><div class=\"text-left\">{disclaimer}</div>";
         }
 
@@ -342,7 +342,7 @@ namespace DegreeMapper.PDFTemplate
         private string GetCustomCourseMapperDescription()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("<div class=\"text-left pt-3 h5\">The semester curriculum suggested below assumes that the student: a) has earned an A.A., b) has completed required lower-level courses and academic milestones, c) will be enrolled full-time at UCF. Upon matriculation to UCF, the student is strongly encouraged to consult their major advisor at UCF and utilize the academic planning tools such as Pegasus Path, myKnight Audit, and mySchedule Builder for any of their academic planning needs.</div>");
+            sb.Append("<div class=\"text-left pt-3 h5\">The semester curriculum suggested below assumes that the student: a) has earned an A.A., b) has completed required lower-level courses and academic milestones, c) will be enrolled full-time at UCF. Upon matriculation to UCF, the student is strongly encouraged to consult their academic success coach at UCF and utilize the academic planning tools such as Pegasus Path, myKnight Audit, and mySchedule Builder for any of their academic planning needs.</div>");
             return sb.ToString();
         }
 
