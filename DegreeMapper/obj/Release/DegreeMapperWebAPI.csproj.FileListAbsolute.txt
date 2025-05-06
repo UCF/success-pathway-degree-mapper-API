@@ -4,3 +4,9 @@ C:\wwwroot\DegreeMapper\DegreeMapper\obj\Release\DegreeMapperWebAPI.csproj.Assem
 C:\wwwroot\DegreeMapper\DegreeMapper\obj\Release\DegreeMapperWebAPI.csproj.CoreCompileInputs.cache
 C:\wwwroot\DegreeMapper\DegreeMapper\obj\Release\DegreeMapper.dll
 C:\wwwroot\DegreeMapper\DegreeMapper\obj\Release\DegreeMapper.pdb
+C:\Github\DegreeMapper\DegreeMapper\bin\Release\DegreeMapper.dll
+C:\Github\DegreeMapper\DegreeMapper\bin\Release\DegreeMapper.pdb
+C:\Github\DegreeMapper\DegreeMapper\obj\Release\DegreeMapperWebAPI.csproj.AssemblyReference.cache
+C:\Github\DegreeMapper\DegreeMapper\obj\Release\DegreeMapperWebAPI.csproj.CoreCompileInputs.cache
+C:\Github\DegreeMapper\DegreeMapper\obj\Release\DegreeMapper.dll
+C:\Github\DegreeMapper\DegreeMapper\obj\Release\DegreeMapper.pdb
