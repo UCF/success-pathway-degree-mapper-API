@@ -48,6 +48,8 @@ namespace DegreeMapperWebAPI
                 {
                     while (dr.Read())
                     {
+                        //Updated stored procedure GetCustomCourseMapper and add DisplayMultipleSemesters 6/22/2025
+                        bool displayMultipleSemesters = Convert.ToBoolean(dr["DisplayMultipleSemesters"].ToString());
                         list_courseIds = dr["CourseIds"].ToString().Split(',').Select(Int32.Parse).ToList();
                         if (list_courseIds.Count > 0)
                         {
@@ -77,10 +79,17 @@ namespace DegreeMapperWebAPI
         {
             Degree d = DegreeMapperWebAPI.Degree.Get(degreeId);
             List<Course> list_ucfCourses = DegreeMapperWebAPI.Course.List(d.UCFDegreeId, null);
-            foreach (Course c in list_ucfCourses.Where(x => x.Active && x.Semester > 1))
+            if (d.DisplayMultipleSemesters)
             {
-                CustomCourseMapper ccm = new CustomCourseMapper(c);
-                list_ccm.Add(ccm);
+                foreach (Course c in list_ucfCourses.Where(x => x.Active && x.Semester > 1))
+                {
+                    CustomCourseMapper ccm = new CustomCourseMapper(c);
+                    list_ccm.Add(ccm);
+                }
+            } 
+            else
+            {
+                list_ccm = new List<CustomCourseMapper>();
             }
         }
     }

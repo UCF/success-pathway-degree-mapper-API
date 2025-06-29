@@ -44,6 +44,7 @@ namespace DegreeMapperWebAPI
         public string CatalogUrl { get; set; }
         public string UndergraduateCatalogUrl { get; set; }
         public int? CloneDegreeId { get; set; }
+        public bool DisplayMultipleSemesters { get; set; }
 
         public Degree()
         {
@@ -209,6 +210,7 @@ namespace DegreeMapperWebAPI
                 int clonedegreeId;
                 Int32.TryParse(dr["CloneDegreeId"].ToString(), out clonedegreeId);
                 d.CloneDegreeId = clonedegreeId;
+                d.DisplayMultipleSemesters = Convert.ToBoolean(dr["DisplayMultipleSemesters"].ToString());
             }
         }
     }

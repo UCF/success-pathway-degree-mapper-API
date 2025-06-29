@@ -44,8 +44,20 @@ namespace DegreeMapperWebAPI
         [DisplayName("Catalog URL")]
         public string CatalogUrl { get; set; }
         public int? CloneDegreeId { get; set; }
-        #endregion
+        public int SemesterStart { get; set; }
+        [DisplayName("Semester Start Term")]
+        public string SemesterStartTerm { get; set; }
+        [DisplayName("Career Path URL")]
+        public string CareerPathURL { get; set; }
+        [DisplayName("Global Course Notes")]
+        public string GlobalCourseNotes { get; set; }
 
+        [DisplayName("Display multiple semesters")]
+        public bool DisplayMultipleSemesters { get; set; }
+
+        [DisplayName("Degree is 100% Online")]
+        public bool DegreeFullOnline { get; set; } = false;
+        #endregion
         public Degree()
         {
 
@@ -61,6 +73,7 @@ namespace DegreeMapperWebAPI
             UCFDegreeId = null;
             CatalogId = (catalogId.HasValue) ? catalogId.Value : new Catalog(true).Id;
             CatalogYear = (catalogId.HasValue) ? Catalog.Get(catalogId.Value).Year : new Catalog(true).Year;
+            DisplayMultipleSemesters = true;
         }
 
         public Degree(int institutionId, int? catalogId)
@@ -207,6 +220,24 @@ namespace DegreeMapperWebAPI
                 int clonedegreeId;
                 Int32.TryParse(dr["CloneDegreeId"].ToString(), out clonedegreeId);
                 d.CloneDegreeId = clonedegreeId;
+                d.SemesterStart = Convert.ToInt32(dr["SemesterStart"].ToString());
+                d.CareerPathURL = dr["CareerPathURL"].ToString();
+                d.GlobalCourseNotes = dr["GlobalCourseNotes"].ToString();
+                d.DisplayMultipleSemesters = Convert.ToBoolean(dr["DisplayMultipleSemesters"].ToString());
+                d.DegreeFullOnline = Convert.ToBoolean(dr["DegreeFullOnline"]);
+                SetSemesterStartTerm(ref d);
+            }
+        }
+        private static void SetSemesterStartTerm(ref Degree d)
+        {
+            switch (d.SemesterStart)
+            {
+                case 1 : d.SemesterStartTerm = "Spring";
+                    break;
+                case 2: d.SemesterStartTerm = "Summer";
+                    break;
+                default: d.SemesterStartTerm = "Fall";
+                    break;
             }
         }
     }

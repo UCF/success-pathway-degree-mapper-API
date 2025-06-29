@@ -57,7 +57,7 @@ namespace DegreeMapperWebAPI
         public int Section { get; set; }
         [DisplayName("Note Type")]
         public int NoteType { get; set; }
-        public int CatalogyId { get; set; }
+        public int CatalogId { get; set; }
         [DisplayName("Catalog Year")]
         public string CatalogYear { get; set; }
         public int? CloneNoteId { get; set; }
@@ -90,7 +90,7 @@ namespace DegreeMapperWebAPI
             OrderBy = 1;
             NoteType = Note.NoteTypeValue.Note;
             CatalogYear = d.CatalogYear;
-            CatalogyId = d.CatalogId;
+            CatalogId = d.CatalogId;
         }
 
         public static List<Note> List(int? degreeId, int? catalogId)
@@ -193,7 +193,7 @@ namespace DegreeMapperWebAPI
                 n.Section = Convert.ToInt32(dr["Section"].ToString());
                 n.NoteType = Convert.ToInt32(dr["NoteType"].ToString());
                 n.CatalogYear = dr["CatalogYear"].ToString();
-                n.CatalogyId = Convert.ToInt32(dr["CatalogId"].ToString());
+                n.CatalogId = Convert.ToInt32(dr["CatalogId"].ToString());
                 int cloneNoteId;
                 Int32.TryParse(dr["CloneNoteId"].ToString(), out cloneNoteId);
                 n.CloneNoteId = cloneNoteId;
