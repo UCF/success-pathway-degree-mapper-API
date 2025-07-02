@@ -35,6 +35,8 @@ namespace DegreeMapperWebAPI
 
         public string ForeignLanguageRequirement { get; set; }
 
+        public string CareerPathURL { get; set; }
+
         public List<string> Notes { get; set; }
         #endregion
 
@@ -61,6 +63,7 @@ namespace DegreeMapperWebAPI
                 di.InstitutionId = d.InstitutionId;
                 di.RestrictedAccess = d.RestrictedAccess;
                 di.LimitedAccess = d.LimitedAccess;
+                di.CareerPathURL = d.CareerPathURL;
                 if (d.UCFDegreeId.HasValue)
                 {
                     di.UCFDegreeId = d.UCFDegreeId.Value;
